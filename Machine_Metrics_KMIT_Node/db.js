@@ -5,7 +5,8 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '59510215617525',
-    database: 'machine_metrics'
+    //database: 'machine_metrics'
+    database: 'kmit_projects_dashboard'
   });
   
   // Conexión a la base de datos
@@ -14,7 +15,7 @@ db.connect((err) => {
     console.error('Error de conexión a MySQL:', err);
     throw err; // Otra opción sería: process.exit(1);
   } else {
-    console.log('Conexión a MySQL [ machine_metrics ]');
+    console.log('Conexión a MySQL [ kmit_projects_dashboard ]');
   }
 });
 

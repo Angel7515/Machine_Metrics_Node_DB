@@ -8,7 +8,7 @@ const newprojectController = {
             start_date: req.body.start_date,
             end_date: req.body.end_date,
             status_project: req.body.status_project,
-            person_full_name: req.body.person_full_name
+            person_idactive: req.body.person_idactive
         };
 
         NewProject.create(newprojectData, function(err, result) {

@@ -1,4 +1,3 @@
-// projectController.js
 const projectModel = require('../models/PutProjectModel');
 
 const projectController = {
@@ -8,9 +7,9 @@ const projectController = {
 
         projectModel.updateProjectDB(idproject, projectData, (error, result) => {
             if (error) {
-                res.status(500).send("Error al actualizar el proyecto : ->  ");
+                res.status(500).json({ error: "Error al actualizar el proyecto" });
             } else {
-                res.status(200).send("Proyecto actualizado exitosamente");
+                res.status(200).json({ message: "Proyecto actualizado exitosamente" });
             }
         });
     }

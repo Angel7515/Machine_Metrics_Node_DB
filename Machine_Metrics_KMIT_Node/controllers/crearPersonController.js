@@ -3,8 +3,8 @@ const Person = require('../models/crearPersonModel');
 
 const newPersonController = {
     createNewUser: function (req, res) {
-        const { fullName, userRole } = req.body;
-        Person.createUser(fullName, userRole, (err, result) => {
+        const { idactive, fullName, userRole } = req.body;
+        Person.createUser(idactive, fullName, userRole, (err, result) => {
             if (err) {
                 res.status(500).json({ error: err.message });
             } else {
