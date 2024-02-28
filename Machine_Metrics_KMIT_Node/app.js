@@ -15,6 +15,8 @@ const kpiscreate = require('./routes/KpisRoutesCreate');
 const performanceRoutes2 = require('./routes/GETPersonRoutes');
 const performanceRoutes = require('./routes/CreatePerformanceRoutes');
 const searchOneP = require('./routes/searchOnePerson');
+const createPP = require('./routes/PersonProjectCreate');
+const deletePersonP = require('./routes/Deleteperson_has_projectController');
 
 
 const app = express();
@@ -31,7 +33,9 @@ app.use(cors());
 /* GET ALL*/
 app.use('/dbprojects', projectsRoutes);
 app.use('/dbusers',personRoutes);
+
 app.use('/dbpersonHasProjects',personHasprojects);
+
 app.use('/kpis',kpiRoutes);
 
 /* GET for ID */
@@ -44,6 +48,7 @@ app.use('/dbOneP', searchOneP);
 app.use('/dbNewproject', newprojectRoutes);
 app.use('/dbcreateperson',createPerson);
 app.use('/dbkpis',kpiscreate);
+app.use('/dbpersonproject',createPP);
 
 /* UPLOAD */
 app.use('/dbputprojects', UPdateproject);
@@ -53,6 +58,9 @@ app.use('/dbcreatePersonProject',personHasProjectCreate);
 
 app.use('/dbgetperformance', performanceRoutes2);
 app.use('/dbcreate', performanceRoutes);
+
+
+app.use('/dbdeletePerPro',deletePersonP);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
