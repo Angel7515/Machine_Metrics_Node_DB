@@ -18,6 +18,7 @@ const searchOneP = require('./routes/searchOnePerson');
 const createPP = require('./routes/PersonProjectCreate');
 const deletePersonP = require('./routes/Deleteperson_has_projectController');
 const updatekpi = require('./routes/UpdateKPI');
+const overviewKPI = require('./routes/overviewKPI');
 
 
 const app = express();
@@ -45,6 +46,7 @@ app.use('/dbeditproject',IDprojectRoutes);
 app.use('/dbcheckUser',checkPersonLogin);
 app.use('/dbOneP', searchOneP);
 app.use('/dbgetperformance', performanceRoutes2);
+app.use('/dboverview', overviewKPI);
 
 /* POST */
 app.use('/dbNewproject', newprojectRoutes);

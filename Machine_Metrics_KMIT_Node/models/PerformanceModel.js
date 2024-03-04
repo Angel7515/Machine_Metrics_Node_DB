@@ -9,7 +9,6 @@ Performance.getAll = (result) => {
             result(null, err);
             return;
         }
-        console.log('Entradas de performance: ', res);
         result(null, res);
     });
 };
