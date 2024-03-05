@@ -19,6 +19,7 @@ const createPP = require('./routes/PersonProjectCreate');
 const deletePersonP = require('./routes/Deleteperson_has_projectController');
 const updatekpi = require('./routes/UpdateKPI');
 const overviewKPI = require('./routes/overviewKPI');
+const OverviewHome = require('./routes/OverviewHome');
 
 
 const app = express();
@@ -35,10 +36,9 @@ app.use(cors());
 /* GET ALL*/
 app.use('/dbprojects', projectsRoutes);
 app.use('/dbusers',personRoutes);
-
 app.use('/dbpersonHasProjects',personHasprojects);
-
 app.use('/kpis',kpiRoutes);
+app.use('/dboverviewP',OverviewHome);
 
 /* GET for ID */
 app.use('/dbproject', IDprojectRoutes);
