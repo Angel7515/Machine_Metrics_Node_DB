@@ -5,7 +5,6 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '59510215617525',
-    //database: 'machine_metrics'
     database: 'kmit_projects_dashboard'
   });
   
