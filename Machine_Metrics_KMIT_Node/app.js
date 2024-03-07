@@ -64,9 +64,6 @@ app.use('/dbupKPI',updatekpi);
 /* DELETE */
 app.use('/dbdeletePerPro',deletePersonP);
 
-
-
-
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor Node.js escuchando en el puerto ${PORT}`);
