@@ -1,4 +1,3 @@
-// models/project.js
 const db = require('../db');
 
 const NewProject = {
