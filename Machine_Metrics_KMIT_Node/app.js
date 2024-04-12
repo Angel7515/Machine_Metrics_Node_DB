@@ -34,35 +34,35 @@ app.use(cors());
 // Rutas de usuario
 
 /* GET ALL*/
-app.use('/dbprojects', projectsRoutes);
-app.use('/dbusers',personRoutes);
-app.use('/dbpersonHasProjects',personHasprojects);
-app.use('/kpis',kpiRoutes);
-app.use('/dboverviewP',OverviewHome);
+app.use('/api/dbprojects', projectsRoutes);
+app.use('/api/dbusers',personRoutes);
+app.use('/api/dbpersonHasProjects',personHasprojects);
+app.use('/api/kpis',kpiRoutes);
+app.use('/api/dboverviewP',OverviewHome);
 
 /* GET for ID */
-app.use('/dbproject', IDprojectRoutes);
-app.use('/dbeditproject',IDprojectRoutes);
-app.use('/dbcheckUser',checkPersonLogin);
-app.use('/dbOneP', searchOneP);
-app.use('/dbgetperformance', performanceRoutes2);
-app.use('/dboverview', overviewKPI);
+app.use('/api/dbproject', IDprojectRoutes);
+app.use('/api/dbeditproject',IDprojectRoutes);
+app.use('/api/dbcheckUser',checkPersonLogin);
+app.use('/api/dbOneP', searchOneP);
+app.use('/api/dbgetperformance', performanceRoutes2);
+app.use('/api/dboverview', overviewKPI);
 
 /* POST */
-app.use('/dbNewproject', newprojectRoutes);
-app.use('/dbcreateperson',createPerson);
-app.use('/dbkpis',kpiscreate);
-app.use('/dbpersonproject',createPP);
-app.use('/dbcreate', performanceRoutes);
+app.use('/api/dbNewproject', newprojectRoutes);
+app.use('/api/dbcreateperson',createPerson);
+app.use('/api/dbkpis',kpiscreate);
+app.use('/api/dbpersonproject',createPP);
+app.use('/api/dbcreate', performanceRoutes);
 
 /* UPLOAD */
-app.use('/dbputprojects', UPdateproject);
-app.use('/dbupdateuser', updateUser);
-app.use('/dbcreatePersonProject',personHasProjectCreate);
-app.use('/dbupKPI',updatekpi);
+app.use('/api/dbputprojects', UPdateproject);
+app.use('/api/dbupdateuser', updateUser);
+app.use('/api/dbcreatePersonProject',personHasProjectCreate);
+app.use('/api/dbupKPI',updatekpi);
 
 /* DELETE */
-app.use('/dbdeletePerPro',deletePersonP);
+app.use('/api/dbdeletePerPro',deletePersonP);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
