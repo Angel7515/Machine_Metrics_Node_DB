@@ -1,10 +1,10 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 // Configuración de la conexión a MySQL
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'mysql-container',
     user: 'root',
-    password: '59510215617525',
+    password: '59511348277525*',
     database: 'kmit_projects_dashboard'
   });
   

@@ -1,3 +1,6 @@
+const https = require('https');
+const fs = require('fs');
+
 const express = require('express');
 const cors = require('cors');
 const projectsRoutes = require('./routes/projectsRoutes');
@@ -23,7 +26,8 @@ const OverviewHome = require('./routes/OverviewHome');
 
 
 const app = express();
-const PORT = 3000;
+//const PORT = 3000;
+const PORT = 8443;
 
 // Middleware para analizar JSON
 app.use(express.json());
@@ -64,7 +68,12 @@ app.use('/api/dbupKPI',updatekpi);
 /* DELETE */
 app.use('/api/dbdeletePerPro',deletePersonP);
 
-// Iniciar el servidor
-app.listen(PORT, () => {
+// Configurar servidor HTTPS
+const options = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('cert.crt')
+};
+
+https.createServer(options, app).listen(PORT, () => {
   console.log(`Servidor Node.js escuchando en el puerto ${PORT}`);
 });
