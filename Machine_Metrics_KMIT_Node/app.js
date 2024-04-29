@@ -3,6 +3,8 @@ const fs = require('fs');
 
 const express = require('express');
 const cors = require('cors');
+
+// Importar tus rutas
 const projectsRoutes = require('./routes/projectsRoutes');
 const personRoutes = require('./routes/personRoutes');
 const personHasprojects = require('./routes/person_has_projectRoutes');
@@ -24,9 +26,7 @@ const updatekpi = require('./routes/UpdateKPI');
 const overviewKPI = require('./routes/overviewKPI');
 const OverviewHome = require('./routes/OverviewHome');
 
-
 const app = express();
-//const PORT = 3000;
 const PORT = 8443;
 
 // Middleware para analizar JSON
@@ -35,8 +35,26 @@ app.use(express.json());
 // Configurar CORS
 app.use(cors());
 
-// Rutas de usuario
+// Middleware para verificar el User-Agent
+const userAgentCheck = (req, res, next) => {
+  const userAgent = req.get('User-Agent');
+  // Verificar si la solicitud proviene de un navegador
+  const isBrowser = /mozilla|chrome|safari|firefox|opera|edge|msie|trident/i.test(userAgent);
+  if (isBrowser) {
+    // Si la solicitud proviene de un navegador, requerir autenticación OAuth
+    // Agrega aquí la lógica para requerir autenticación OAuth
+    // Puedes redirigir al usuario a la página de inicio de sesión de OAuth
+    res.status(401).json({ error: 'Autenticación OAuth requerida' });
+  } else {
+    // Si la solicitud no proviene de un navegador, continuar con la siguiente ruta
+    next();
+  }
+};
 
+// Aplicar el middleware de verificación del User-Agent a todas las rutas
+app.use(userAgentCheck);
+
+// Rutas de usuario
 /* GET ALL*/
 app.use('/api/dbprojects', projectsRoutes);
 app.use('/api/dbusers',personRoutes);
