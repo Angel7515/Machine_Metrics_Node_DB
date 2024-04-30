@@ -1,6 +1,5 @@
 const https = require('https');
 const fs = require('fs');
-
 const express = require('express');
 const cors = require('cors');
 
@@ -35,18 +34,22 @@ app.use(express.json());
 // Configurar CORS
 app.use(cors());
 
-// Middleware para verificar el User-Agent
+// Middleware para verificar el User-Agent y permitir solicitudes desde el frontend
 const userAgentCheck = (req, res, next) => {
   const userAgent = req.get('User-Agent');
+  const origin = req.get('Origin');
+  
   // Verificar si la solicitud proviene de un navegador
-  const isBrowser = /mozilla|chrome|safari|firefox|opera|edge|msie|trident/i.test(userAgent);
-  if (isBrowser) {
-    // Si la solicitud proviene de un navegador, requerir autenticación OAuth
-    // Agrega aquí la lógica para requerir autenticación OAuth
-    // Puedes redirigir al usuario a la página de inicio de sesión de OAuth
-    res.status(401).json({ error: 'Autenticación OAuth requerida' });
+  const isBrowser = /mozilla|chrome|safari|firefox|opera/i.test(userAgent);
+
+  // Verificar si la solicitud proviene del frontend
+  const isFromFrontend = origin && origin === 'https://cimmyt-project-management.cimmyt.org';
+
+  if (isBrowser && !isFromFrontend) {
+    // Si la solicitud proviene de un navegador pero no del frontend, requerir autenticación OAuth
+    res.status(401).json({ error: 'Authentication required' });
   } else {
-    // Si la solicitud no proviene de un navegador, continuar con la siguiente ruta
+    // Permitir la solicitud desde el frontend o desde otras fuentes
     next();
   }
 };
@@ -95,3 +98,4 @@ const options = {
 https.createServer(options, app).listen(PORT, () => {
   console.log(`Servidor Node.js escuchando en el puerto ${PORT}`);
 });
+
