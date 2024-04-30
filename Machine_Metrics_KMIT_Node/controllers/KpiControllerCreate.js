@@ -1,3 +1,24 @@
+/* const db = require('../db'); */
+
+// Controlador para crear un nuevo KPI
+/* exports.createKpi = (req, res) => {
+  const { name, type_kp, importance, project_idproject, project_person_idactive } = req.body;
+  const query = 'INSERT INTO kpis (name, type_kp, importance, project_idproject, project_person_idactive) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [name, type_kp, importance, project_idproject, project_person_idactive], (err, result) => {
+    if (err) {
+      console.error('Error creating KPI: ', err);
+      res.status(500).json({ error: 'An error occurred while creating the KPI.' });
+      return;
+    }
+    res.status(201).json({ message: 'KPI created successfully', id: result.insertId });
+  });
+}; */
+
+
+
+
+/* 2 tables */
+
 const db = require('../db');
 
 // Controlador para crear un nuevo KPI
@@ -10,6 +31,35 @@ exports.createKpi = (req, res) => {
       res.status(500).json({ error: 'An error occurred while creating the KPI.' });
       return;
     }
-    res.status(201).json({ message: 'KPI created successfully', id: result.insertId });
+
+    // Obtener el ID del KPI recién creado
+    const kpiId = result.insertId;
+
+    // Insertar un registro inicial en la tabla performance
+    let kpi_num;
+    let kpi_str = 'Recorded KPI';
+    let kpi_str_porcent = 0;
+
+    if (type_kp === 'QUANTITATIVE') {
+      kpi_num = 0;
+    } else {
+      kpi_num = null;
+    }
+
+    const performanceQuery = `
+      INSERT INTO performance 
+      (kpi_num, kpi_str, kpi_str_porcent, kpi_descripcion, date_upload, kpis_idkpis, kpis_project_idproject, kpis_project_person_idactive) 
+      VALUES (?, ?, ?, ?, CURRENT_DATE(), ?, ?, ?)
+    `;
+    db.query(performanceQuery, [kpi_num, kpi_str, kpi_str_porcent, kpi_str, kpiId, project_idproject, project_person_idactive], (error, result) => {
+      if (error) {
+        console.error('Error creating initial performance record: ', error);
+        res.status(500).json({ error: 'An error occurred while creating the initial performance record.' });
+        return;
+      }
+
+      // Envía una respuesta exitosa con el ID del KPI creado
+      res.status(201).json({ message: 'KPI created successfully', id: kpiId });
+    });
   });
 };
