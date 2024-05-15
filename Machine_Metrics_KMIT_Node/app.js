@@ -1,3 +1,4 @@
+const http = require('http'); /* nw */
 const https = require('https');
 const fs = require('fs');
 const express = require('express');
@@ -26,7 +27,12 @@ const overviewKPI = require('./routes/overviewKPI');
 const OverviewHome = require('./routes/OverviewHome');
 
 const app = express();
-const PORT = 8443;
+/* const PORT = 8443;  original*/
+
+const HTTP_PORT = 3000;
+const HTTPS_PORT = 8443;
+
+
 
 // Middleware para analizar JSON
 app.use(express.json());
@@ -34,25 +40,36 @@ app.use(express.json());
 // Configurar CORS
 app.use(cors());
 
+
+
 // Middleware para verificar el User-Agent y permitir solicitudes desde el frontend
 const userAgentCheck = (req, res, next) => {
   const userAgent = req.get('User-Agent');
   const origin = req.get('Origin');
-  
+
+  // Lista de dominios permitidos
+  const allowedOrigins = [
+    'https://cimmyt-project-management.cimmyt.org',
+    'https://localhost:4200'
+    // Agrega aquí cualquier otro dominio permitido
+  ];
+
   // Verificar si la solicitud proviene de un navegador
   const isBrowser = /mozilla|chrome|safari|firefox|opera/i.test(userAgent);
 
-  // Verificar si la solicitud proviene del frontend
-  const isFromFrontend = origin && origin === 'https://cimmyt-project-management.cimmyt.org';
+  // Verificar si la solicitud proviene de alguno de los dominios permitidos
+  const isFromAllowedOrigin = allowedOrigins.includes(origin);
 
-  if (isBrowser && !isFromFrontend) {
-    // Si la solicitud proviene de un navegador pero no del frontend, requerir autenticación OAuth
+  if (isBrowser && !isFromAllowedOrigin) {
+    // Si la solicitud proviene de un navegador pero no de un dominio permitido, requerir autenticación OAuth
     res.status(401).json({ error: 'Authentication required' });
   } else {
-    // Permitir la solicitud desde el frontend o desde otras fuentes
+    // Permitir la solicitud desde el frontend o desde otros orígenes permitidos
+    res.setHeader('Access-Control-Allow-Origin', origin);
     next();
   }
 };
+
 
 // Aplicar el middleware de verificación del User-Agent a todas las rutas
 app.use(userAgentCheck);
@@ -89,13 +106,31 @@ app.use('/api/dbupKPI',updatekpi);
 /* DELETE */
 app.use('/api/dbdeletePerPro',deletePersonP);
 
+// Configurar servidor HTTPS  original
+/* const options = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('cert.crt')
+}; */
+
+// Configurar servidor HTTP
+const httpServer = http.createServer(app);
+httpServer.listen(HTTP_PORT, () => {
+  console.log(`Servidor HTTP escuchando en el puerto ${HTTP_PORT}`);
+});
+
 // Configurar servidor HTTPS
 const options = {
   key: fs.readFileSync('server.key'),
   cert: fs.readFileSync('cert.crt')
 };
 
-https.createServer(options, app).listen(PORT, () => {
+/* original */
+/* https.createServer(options, app).listen(PORT, () => {
   console.log(`Servidor Node.js escuchando en el puerto ${PORT}`);
-});
+}); */
 
+
+const httpsServer = https.createServer(options, app);
+httpsServer.listen(HTTPS_PORT, () => {
+  console.log(`Servidor HTTPS escuchando en el puerto ${HTTPS_PORT}`);
+});
