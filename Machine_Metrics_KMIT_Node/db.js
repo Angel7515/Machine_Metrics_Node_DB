@@ -2,12 +2,13 @@ const mysql = require('mysql2');
 
 // Crear un pool de conexiones a la base de datos
 const pool = mysql.createPool({
-  /* host: 'mysql-container', */
-  host: 'localhost',
+  host: 'mysql-container',
+  /* host: 'localhost', */
   user: 'root',
-  /* password: '59511348277525*', */
-  password: '59510215617525',
+  password: '59511348277525*',
+  /* password: '59510215617525*', */
   database: 'kmit_projects_dashboard',
+  /* port: 33061, */
   waitForConnections: true,
   connectionLimit: 20, // Limitar a 20 conexiones
   queueLimit: 0
