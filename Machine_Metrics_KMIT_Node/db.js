@@ -14,5 +14,4 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Exportar el pool de conexiones para su uso en otros módulos
 module.exports = pool;
