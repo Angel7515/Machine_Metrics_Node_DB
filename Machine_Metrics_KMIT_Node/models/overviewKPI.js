@@ -9,6 +9,8 @@ class Kpi {
         k.name,
         k.type_kp,
         k.importance,
+        k.start_date,
+        k.end_date,
         p.idperformance,
         p.kpi_num,
         p.kpi_str,
